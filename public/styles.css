@@ -18,6 +18,10 @@
 body { margin: 0; min-width: 320px; background: radial-gradient(circle at 85% -10%, #f3e9ff 0, transparent 35%), #faf8fc; }
 button, input, select { font: inherit; }
 button { cursor: pointer; }
+.skip-link { position: absolute; top: 10px; left: 10px; z-index: 20; padding: 10px 14px; color: var(--white); background: var(--purple-dark); border-radius: 10px; transform: translateY(-160%); }
+.skip-link:focus { transform: translateY(0); }
+:focus-visible { outline: 3px solid #075fc7; outline-offset: 3px; }
+button:disabled { cursor: not-allowed; opacity: .72; }
 .screen { display: none; min-height: 100vh; padding: 32px; }
 .screen.active { display: block; }
 .hidden { display: none !important; }
@@ -261,4 +265,20 @@ input::placeholder { color: #afa6bc; }
   .narrow-screen { padding-top: 24px; }
   .student-instructions { padding: 16px; }
   .point-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+  .role-card:hover, .primary-button:hover, .secondary-button:hover, .ghost-button:hover { transform: none; }
+}
+
+@media (prefers-contrast: more) {
+  :root { --muted: #51485e; --line: #83788f; --purple-soft: #e4d9f7; }
+  .panel, .role-card, input, select, .ghost-button, .submission-row { border-width: 2px; }
+  .cell-button:focus-visible { outline-color: #003b80; outline-width: 4px; }
 }

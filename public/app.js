@@ -96,6 +96,11 @@ let reconnectAttempt = 0;
 function showScreen(screen) {
   Object.values(screens).forEach((item) => item.classList.remove("active"));
   screens[screen].classList.add("active");
+  const heading = screens[screen].querySelector("h1, h2");
+  if (heading) {
+    heading.setAttribute("tabindex", "-1");
+    heading.focus({ preventScroll: true });
+  }
 }
 
 function boardMeta(id) { return BOARDS[id] || BOARDS["life-stages"]; }
@@ -211,9 +216,12 @@ async function createTeacherRoom() {
 function makeBoard(stage, boardId, { markers = false, selectedIndex = null, correctIndex = null, disabled = false, onClick = null } = {}) {
   const meta = boardMeta(boardId);
   stage.replaceChildren();
+  stage.setAttribute("role", "group");
+  stage.setAttribute("aria-label", `${meta.title} answer board. Use the numbered answer buttons.`);
   const image = document.createElement("img");
   image.src = meta.image;
-  image.alt = `${meta.title} answer board`;
+  image.alt = `${meta.title} answer board image. Use the numbered buttons to choose a tile.`;
+  image.decoding = "async";
   stage.append(image);
   const grid = document.createElement("div");
   grid.className = "board-grid";
@@ -225,10 +233,16 @@ function makeBoard(stage, boardId, { markers = false, selectedIndex = null, corr
     button.type = "button";
     button.className = "cell-button";
     button.dataset.cell = String(index + 1);
-    button.setAttribute("aria-label", `Tile ${index + 1}`);
+    const selected = selectedIndex === index;
+    const correct = correctIndex === index;
+    const actionLabel = markers ? "Mark this tile as the correct answer for the current sign." : "Choose this answer.";
+    const stateLabel = correct ? " Correct answer." : selected ? " Selected." : "";
+    button.setAttribute("aria-label", `Answer tile ${index + 1}.${stateLabel} ${actionLabel}`);
+    button.setAttribute("aria-pressed", String(selected));
+    button.title = `Answer tile ${index + 1}`;
     if (markers) button.classList.add("marker-mode");
-    if (selectedIndex === index) button.classList.add("selected");
-    if (correctIndex === index) button.classList.add("correct");
+    if (selected) button.classList.add("selected");
+    if (correct) button.classList.add("correct");
     button.disabled = disabled;
     if (onClick) button.addEventListener("click", () => onClick(index));
     grid.append(button);
@@ -336,6 +350,8 @@ function renderLeaderboard(snapshot, target, isStudent = false, large = false) {
   snapshot.leaderboard.forEach((player, index) => {
     const row = document.createElement("div");
     row.className = `leader-row ${isStudent && player.id === session?.playerId ? "me" : ""}`;
+    row.setAttribute("role", "listitem");
+    row.setAttribute("aria-label", `Rank ${player.rank ?? index + 1}: ${player.name}, ${player.score} points`);
     const rank = document.createElement("span");
     rank.className = "leader-rank";
     rank.textContent = `${player.rank ?? index + 1}`;
