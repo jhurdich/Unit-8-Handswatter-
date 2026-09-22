@@ -12,6 +12,7 @@ A real-time classroom game for the supplied Unit 8 Handswatter boards. The teach
 - A round-results screen shows the accumulated grand total.
 - Students see the rules before the round begins; the answer board appears when the teacher starts a sign.
 - Student and teacher connections automatically reconnect and resync if a network connection drops.
+- Students see the top 10 leaderboard places plus their own place if they are outside the top 10; teachers see the full leaderboard.
 
 ## Local run
 
