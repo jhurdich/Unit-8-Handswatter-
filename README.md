@@ -10,6 +10,8 @@ A real-time classroom game for the supplied Unit 8 Handswatter boards. The teach
 - Correct answers score by arrival order: 10, 9, 8, 7, 6, 5, 4, 3, 2, then 1 point for every later correct answer.
 - Scores carry forward across rounds.
 - A round-results screen shows the accumulated grand total.
+- Students see the rules before the round begins; the answer board appears when the teacher starts a sign.
+- Student and teacher connections automatically reconnect and resync if a network connection drops.
 
 ## Local run
 
@@ -33,7 +35,7 @@ The project uses a Durable Object for each room, so room state and WebSocket mes
 ## Teacher workflow
 
 1. Choose Teacher, create a room, and share the code.
-2. The supplied eight-round answer key loads in order. Review the teacher-only sign notes and correct tiles, then adjust any tile if needed.
+2. The supplied eight-round answer key loads for the selected board. Its sign order is shuffled separately for each room. Review the teacher-only sign notes and correct tiles, then adjust any tile if needed.
 3. Click the correct tile marker for each prompt, then save the round.
 4. Start each sign. Students tap one tile. End the sign to reveal the correct tile and results.
 5. Continue through the prompts, end the round, and start another round when ready.
