@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Swat It! Live</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main id="app">
+      <section id="home-screen" class="screen active">
+        <div class="hero">
+          <p class="eyebrow">Unit 8 review</p>
+          <h1>Swat It! <span>Live</span></h1>
+          <p class="hero-copy">One room code. Up to eight signs. One live leaderboard.</p>
+          <div class="hero-stats"><span><strong>01</strong> room code</span><span><strong>08</strong> signs per round</span><span><strong>∞</strong> points carry forward</span></div>
+        </div>
+          <div class="role-grid">
+          <button class="role-card" id="teacher-entry">
+            <span class="role-icon">✋</span>
+            <span><strong>Teacher</strong><small>Create a room and run the game</small></span>
+          </button>
+          <button class="role-card" id="student-entry">
+            <span class="role-icon">⚡</span>
+            <span><strong>Student</strong><small>Join with a room code</small></span>
+          </button>
+          </div>
+        <p id="home-error" class="error-text home-error" role="alert"></p>
+        <a class="live-link" href="https://handswatter-live.handswatter.workers.dev/">Open the hosted game →</a>
+        <p class="small-note">Works on a projector, laptop, tablet, or phone.</p>
+      </section>
+
+      <section id="join-screen" class="screen narrow-screen">
+        <button class="text-button back-home">← Back</button>
+        <div class="panel join-panel">
+          <p class="eyebrow">Student join</p>
+          <h2>Enter the room</h2>
+          <form id="join-form">
+            <label>Room code<input id="join-code" autocomplete="off" maxlength="6" placeholder="ABC123" required /></label>
+            <label>Your name<input id="join-name" autocomplete="name" maxlength="24" placeholder="First name" required /></label>
+            <button class="primary-button" type="submit">Join game</button>
+          </form>
+          <p class="helper-copy">Ask your teacher for the six-character room code.</p>
+          <p id="join-error" class="error-text" role="alert"></p>
+        </div>
+      </section>
+
+      <section id="teacher-screen" class="screen game-screen">
+        <header class="topbar">
+          <div><p class="eyebrow">Teacher view</p><h2>Swat It! <span>Live</span></h2></div>
+          <div class="topbar-actions"><div class="connection-status" id="teacher-connection-status" role="status">Connecting…</div><div class="room-chip">Room <strong id="teacher-room-code">------</strong></div><button class="ghost-button" id="copy-room">Copy join link</button><button class="ghost-button" id="reset-room">Reset room</button></div>
+        </header>
+        <div class="teacher-layout">
+          <section class="teacher-main">
+            <div id="teacher-lobby" class="panel teacher-state">
+              <div class="state-heading"><div><p class="eyebrow">Room is open</p><h2>Invite your students</h2></div><div class="big-code" id="teacher-big-code">------</div></div>
+              <p>Students can go to this page and enter the code, or scan the join link you share.</p>
+              <div class="join-url-line"><code id="join-url"></code><button class="text-button" id="copy-url">Copy</button></div>
+              <div class="player-list"><div class="section-label">Players <span id="teacher-player-count">0</span></div><div id="teacher-lobby-players" class="player-pills"><span class="muted">Waiting for students…</span></div></div>
+              <div class="setup-actions"><button class="primary-button" id="first-round">Set up first round</button></div>
+            </div>
+
+            <div id="teacher-setup" class="panel teacher-state hidden">
+              <div class="state-heading"><div><p class="eyebrow" id="setup-round-eyebrow">Round 1</p><h2>Set up the signs</h2></div><span class="setup-limit">Up to 8 signs</span></div>
+              <div class="setup-fields"><label>Round title<input id="round-title" maxlength="80" value="Round 1" /></label><label>Board<select id="board-select"></select></label></div>
+              <p class="key-note">Choose the board for the slide you are reviewing, then load its provided key. The answers are shuffled for this room.</p>
+              <div class="board-preview-wrap"><div class="board-stage setup-board" id="setup-board"></div><p class="board-help">Click a numbered tile to mark the correct answer for the selected sign.</p></div>
+              <div id="prompt-editor" class="prompt-editor"></div>
+              <div class="setup-actions"><button class="secondary-button" id="load-answer-key">Load provided key</button><button class="secondary-button" id="add-prompt">＋ Add sign</button><button class="primary-button" id="save-round">Save round</button></div>
+              <p id="setup-error" class="error-text" role="alert"></p>
+            </div>
+
+            <div id="teacher-live" class="panel teacher-state hidden">
+              <div class="state-heading"><div><p class="eyebrow" id="live-round-label">Round 1</p><h2 id="live-heading">Ready for sign 1</h2></div><div class="live-status" id="live-status">Ready</div></div>
+              <div class="sign-note" id="teacher-sign-note">Choose Start when you are ready to sign.</div>
+              <div class="board-stage live-board" id="teacher-board"></div>
+              <div class="live-actions"><button class="primary-button" id="start-prompt">Start sign</button><button class="secondary-button hidden" id="end-prompt">End sign</button><button class="secondary-button hidden" id="next-prompt">Next sign</button><button class="secondary-button hidden" id="end-round">End round</button><button class="primary-button hidden" id="new-round">Set up next round</button><button class="ghost-button hidden" id="finish-game">Finish game</button></div>
+              <p id="live-error" class="error-text" role="alert"></p>
+              <div class="submissions-wrap"><div class="section-label">Live answers <span id="submission-count">0</span></div><div id="teacher-submissions" class="submission-list"><span class="muted">No answers yet.</span></div></div>
+            </div>
+
+            <div id="teacher-finished" class="panel teacher-state hidden">
+              <div class="final-banner"><p class="eyebrow">Game complete</p><h2>Final scores</h2><p>Thanks for playing!</p></div>
+              <div id="teacher-final-leaderboard" class="leaderboard large-leaderboard"></div>
+              <button class="primary-button" id="new-game">Start a new room</button>
+            </div>
+          </section>
+          <aside class="sidebar">
+            <div class="panel score-panel"><div class="section-label">Grand total</div><div id="teacher-leaderboard" class="leaderboard"></div></div>
+            <div class="panel rules-panel"><div class="section-label">Scoring</div><p>Correct answers earn 10 through 2 points for the first nine students, then 1 point for every later correct answer. Wrong answers earn 0.</p></div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="student-screen" class="screen game-screen">
+        <header class="topbar student-topbar"><div><p class="eyebrow">Student view</p><h2>Swat It! <span>Live</span></h2></div><div class="topbar-actions"><div class="connection-status" id="student-connection-status" role="status">Connecting…</div><div class="room-chip">Room <strong id="student-room-code">------</strong></div></div></header>
+        <div class="student-layout">
+          <section class="student-main">
+            <div id="student-instructions" class="panel student-state"><div class="waiting-art">✋</div><p class="eyebrow">You’re in</p><h2 id="student-welcome">Before we start</h2><p id="student-waiting-copy">Read the quick rules below. The answer board will appear when the teacher starts the first sign.</p><section class="student-instructions" aria-label="How to play"><div class="instructions-heading"><div class="instruction-icon">?</div><div><p class="eyebrow">How to play</p><h3>Watch, choose, score!</h3></div></div><ol class="instruction-list"><li><strong>Watch the teacher sign.</strong> The teacher will sign one word at a time. Each round has up to 8 signs.</li><li><strong>Choose the matching answer.</strong> Tap the answer tile that matches the sign as quickly as you can.</li><li><strong>Correct answers earn points:</strong><div class="point-grid"><span><b>1st</b> 10 pts</span><span><b>2nd</b> 9 pts</span><span><b>3rd</b> 8 pts</span><span><b>4th</b> 7 pts</span><span><b>5th</b> 6 pts</span><span><b>6th</b> 5 pts</span><span><b>7th</b> 4 pts</span><span><b>8th</b> 3 pts</span><span><b>9th</b> 2 pts</span><span><b>After 9th</b> 1 pt</span></div></li><li><strong>Wrong answers earn 0 points.</strong> You get one answer for each sign, so choose carefully.</li><li><strong>When the round ends,</strong> you will see your grand total. Your points carry over to the next round.</li><li><strong>A new slide starts the next round.</strong> Keep playing until the teacher finishes the game!</li></ol></section></div>
+            <div id="student-active" class="panel student-state hidden"><div class="student-prompt-head"><div><p class="eyebrow" id="student-round-label">Round 1</p><h2 id="student-prompt-label">Sign 1</h2></div><div class="answer-lock" id="student-answer-lock">Choose a tile</div></div><div class="board-stage student-board" id="student-board"></div><div id="student-feedback" class="student-feedback">Tap the tile that matches the teacher’s sign.</div></div>
+            <div id="student-results" class="panel student-state hidden"><div class="results-icon">✓</div><p class="eyebrow">Sign complete</p><h2 id="student-results-heading">Nice work</h2><p id="student-results-copy">Check the scoreboard for your total.</p><button class="secondary-button" id="student-wait-button">Wait for next sign</button></div>
+            <div id="student-finished" class="panel student-state hidden"><div class="results-icon">🏆</div><p class="eyebrow">Game complete</p><h2>Final scores</h2><div id="student-final-leaderboard" class="leaderboard large-leaderboard"></div></div>
+          </section>
+          <aside class="sidebar"><div class="panel score-panel"><div class="section-label">Grand total</div><div id="student-leaderboard" class="leaderboard"></div></div></aside>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
