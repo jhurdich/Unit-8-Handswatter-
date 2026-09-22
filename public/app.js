@@ -338,7 +338,7 @@ function renderLeaderboard(snapshot, target, isStudent = false, large = false) {
     row.className = `leader-row ${isStudent && player.id === session?.playerId ? "me" : ""}`;
     const rank = document.createElement("span");
     rank.className = "leader-rank";
-    rank.textContent = `${index + 1}`;
+    rank.textContent = `${player.rank ?? index + 1}`;
     const name = document.createElement("span");
     name.className = "leader-name";
     name.textContent = player.name;
