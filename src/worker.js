@@ -262,6 +262,10 @@ export class Room {
 
   publicSnapshot(role, viewerId) {
     const players = Object.values(this.room.players).map(({ id, name, score }) => ({ id, name, score }));
+    const rankedPlayers = sortPlayers(players).map((player, index) => ({ ...player, rank: index + 1 }));
+    const visibleLeaderboard = role === "student"
+      ? rankedPlayers.slice(0, 10).concat(rankedPlayers.find((player) => player.id === viewerId && player.rank > 10) || [])
+      : rankedPlayers;
     const key = String(this.room.currentPrompt);
     const submissions = Object.values(this.room.submissions[key] || {})
       .sort((a, b) => a.sequence - b.sequence)
@@ -280,9 +284,9 @@ export class Room {
         promptIndex: this.room.currentPrompt,
         teacherPrompts: role === "teacher" ? this.room.round.prompts : undefined,
       } : null,
-      players: sortPlayers(players),
+      players: role === "student" ? visibleLeaderboard : rankedPlayers,
       submissions,
-      leaderboard: sortPlayers(players),
+      leaderboard: visibleLeaderboard,
       history: this.room.roundHistory,
       correctIndex: role === "teacher" && this.room.round ? this.room.round.prompts[this.room.currentPrompt]?.correctIndex ?? null : (this.room.promptStatus === "results" || this.room.promptStatus === "round-results") && this.room.round ? this.room.round.prompts[this.room.currentPrompt]?.correctIndex ?? null : null,
     };
