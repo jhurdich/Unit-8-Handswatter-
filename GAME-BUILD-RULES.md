@@ -49,6 +49,16 @@ Correct answers receive points in the order they arrive:
 - Students see only the top 10 leaderboard places. A student outside the top 10 also sees their own current place.
 - Teachers can see the complete leaderboard.
 
+### Accessibility baseline
+
+- Use real buttons for every answer choice so students can use Tab, Enter, and Space.
+- Give every input, status message, board, answer tile, and leaderboard an accessible name.
+- Keep visible focus indicators and do not communicate correctness through color alone.
+- Announce connection changes, answer feedback, and score updates to assistive technology.
+- Respect `prefers-reduced-motion` and provide strong focus/contrast styling.
+- Test with keyboard-only navigation and a screen reader before using a new unit in class.
+- Treat this as an accessibility baseline, not a guarantee of legal ADA compliance; provide an equivalent accommodation when a student needs one.
+
 ## 2. Teacher workflow
 
 1. The teacher opens the hosted game and chooses **Teacher**.

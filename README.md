@@ -14,6 +14,13 @@ A real-time classroom game for the supplied Unit 8 Handswatter boards. The teach
 - Student and teacher connections automatically reconnect and resync if a network connection drops.
 - Students see the top 10 leaderboard places plus their own place if they are outside the top 10; teachers see the full leaderboard.
 
+## Accessibility improvements
+
+- Keyboard users can move through controls and answer tiles with Tab and activate them with Enter or Space.
+- The page includes a skip link, visible focus indicators, labeled form fields, semantic status announcements, and screen-reader labels for boards, answer tiles, and leaderboards.
+- The interface honors reduced-motion and higher-contrast preferences when the browser or operating system provides them.
+- These are accessibility improvements toward WCAG/ADA-aligned use, not a legal accessibility certification. Test the deployed version with the assistive technology used by your students and provide an equivalent teacher-supported alternative when needed.
+
 ## Local run
 
 Install Wrangler, then run:
