@@ -47,3 +47,4 @@ The project uses a Durable Object for each room, so room state and WebSocket mes
 3. Click the correct tile marker for each prompt, then save the round.
 4. Start each sign. Students tap one tile. End the sign to reveal the correct tile and results.
 5. Continue through the prompts, end the round, and start another round when ready.
+  This repository is connected to Cloudflare Workers Builds. Commits to main deploy automatically.
